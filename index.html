@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Redirecting...</title>
+    <script>
+        // Универсальное перенаправление с таймаутом для всех устройств
+        function redirect() {
+            // Основной метод перенаправления
+            window.location.replace("https://youtu.be/dQw4w9WgXcQ?si=efEzq3j5QtZrm77q");
+            
+            // Дублирующий метод на случай если replace не сработал
+            setTimeout(function() {
+                window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=efEzq3j5QtZrm77q";
+            }, 500);
+        }
+
+        // Улучшенная система подсчета уникальных посетителей
+        function countVisitor() {
+            // Проверяем все возможные хранилища на наличие метки о посещении
+            const storageChecked = 
+                localStorage.getItem('visited') ||
+                sessionStorage.getItem('visited') ||
+                document.cookie.match(/(^|;)\s*visited\s*=\s*([^;]+)/);
+            
+            // Если посетитель новый
+            if (!storageChecked) {
+                // Устанавливаем метки во всех хранилищах
+                localStorage.setItem('visited', 'true');
+                sessionStorage.setItem('visited', 'true');
+                document.cookie = "visited=true; max-age=31536000; path=/";
+                
+                // Увеличиваем счетчик
+                let count = localStorage.getItem('visitorCount') || 0;
+                count = parseInt(count) + 1;
+                localStorage.setItem('visitorCount', count);
+                
+                // Обновляем отображение счетчика
+                updateCounterDisplay();
+            }
+        }
+
+        // Обновление отображения счетчика
+        function updateCounterDisplay() {
+            const counter = localStorage.getItem('visitorCount') || '0';
+            const display = document.getElementById('counterDisplay');
+            if (display) display.textContent = counter;
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            countVisitor();
+            updateCounterDisplay();
+            
+            // Запускаем перенаправление с небольшой задержкой
+            // чтобы успеть сохранить данные о посещении
+            setTimeout(redirect, 100);
+        });
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .counter {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .loader {
+            margin: 30px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Перенаправляем вас...</h1>
+        <div class="loader"></div>
+        <p>Пожалуйста, подождите, пока мы перенаправляем вас на видео.</p>
+        <p>Если перенаправление не произошло автоматически, <a href="https://youtu.be/dQw4w9WgXcQ?si=efEzq3j5QtZrm77q">нажмите здесь</a>.</p>
+    </div>
+    
+    <div class="counter">
+        Уникальных посетителей: <span id="counterDisplay">0</span>
+    </div>
+</body>
+</html>
