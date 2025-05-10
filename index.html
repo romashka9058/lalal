@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймер с фоновой музыкой</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            cursor: pointer;
+        }
+        #audioPlayer {
+            display: none;
+        }
+        .click-message {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Ваш оригинальный таймер -->
+    <div>
+        <a href="https://allcalc.ru/node/1870" data-weight="99%" data-height="400px"></a>
+        <script src="https://allcalc.ru/widgets/script.js"></script>
+    </div>
+
+    <!-- Аудио элемент для фоновой музыки -->
+    <audio id="audioPlayer" loop>
+        <source src="1.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио элемент.
+    </audio>
+
+    <!-- Подсказка для пользователя -->
+    <div class="click-message">Кликните в любом месте, чтобы включить музыку</div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        let musicStarted = false;
+
+        // Пытаемся запустить музыку автоматически (скорее всего будет заблокировано)
+        audioPlayer.play().catch(e => {
+            console.log('Автовоспроизведение заблокировано. Ждем клика пользователя.');
+        });
+
+        // Включаем музыку при первом клике на странице
+        document.body.addEventListener('click', function() {
+            if (!musicStarted) {
+                audioPlayer.play()
+                    .then(() => {
+                        musicStarted = true;
+                        document.querySelector('.click-message').style.display = 'none';
+                    })
+                    .catch(e => {
+                        console.error('Ошибка воспроизведения:', e);
+                    });
+            }
+        }, { once: true }); // Обработчик сработает только один раз
+    </script>
+</body>
+</html>
